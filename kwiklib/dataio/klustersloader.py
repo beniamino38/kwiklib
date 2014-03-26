@@ -459,7 +459,7 @@ def convert_to_clu(clusters, cluster_groups):
     # cluster_groups = cluster_info['group']
     clusters_new = np.array(clusters, dtype=np.int32)
     for i in (0, 1):
-        clusters_new[cluster_groups.ix[clusters] == i] = i
+        clusters_new[np.array(cluster_groups.ix[clusters] == i)] = i
     # clusters_unique = np.unique(set(clusters_new).union(set([0, 1])))
     # clusters_renumbered = reorder(clusters_new, clusters_unique)
     # return clusters_renumbered

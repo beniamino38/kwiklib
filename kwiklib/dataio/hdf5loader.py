@@ -499,7 +499,7 @@ class HDF5Loader(Loader):
         self._update_table_size(self.clusters_table, 
             len(self.get_clusters_unique()))
         self.clusters_table.cols.cluster[:] = self.get_clusters_unique()
-        self.clusters_table.cols.group[:] = self.cluster_info['group']
+        self.clusters_table.cols.group[:] = np.array(self.cluster_info['group'])
         
         
         # Report progress.
@@ -513,7 +513,7 @@ class HDF5Loader(Loader):
             self.groups_table, 
             len(groups), )
         self.groups_table.cols.group[:] = groups
-        self.groups_table.cols.name[:] = self.group_info['name']
+        self.groups_table.cols.name[:] = list(self.group_info['name'])
         
         # Commit the changes on disk.
         self.kwik.flush()
