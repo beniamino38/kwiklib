@@ -76,15 +76,16 @@ class HDF5Loader(Loader):
             
         if os.path.exists(self.filename):
             self.kwik = tb.openFile(self.filename, mode='r+')
+            self.read_metadata(self.kwik)
             # Get the list of shanks.
             # WARNING
-            # The commented code above detects the shank indices from introspection
+            # The commented code below detects the shank indices from introspection
             # in the "shanks" group. It is not necessary anymore as soon as the
             # metadata contains a "SHANKS" attribute with the list of shanks.
-            # self.shanks = [int(re.match("shank([0-9]+)", 
-                # shank._v_name).group(1)[0])
-                    # for shank in self.kwik.listNodes('/shanks')]
-            self.read_metadata(self.kwik)
+            self.shanks = [int(re.match("shank([0-9]+)",
+                shank._v_name).group(1)[0])
+                    for shank in self.kwik.listNodes('/shanks')]
+
             # By default, read the first available shank.
             self.set_shank(self.shanks[0])
             self.read_shank()
@@ -177,7 +178,6 @@ class HDF5Loader(Loader):
     def read_nchannels(self):
         """Read the number of alive channels from the probe file."""
         channels = self.probe[self.shank]['channels']
-        channels.remove(-1)
         channels_ignored = self.params['ignored_channels']
         channels_alive = sorted(set(channels) - set(channels_ignored))
         self.nchannels = len(channels_alive)
