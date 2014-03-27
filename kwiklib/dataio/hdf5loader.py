@@ -83,9 +83,9 @@ class HDF5Loader(Loader):
             # in the "shanks" group. It is not necessary anymore as soon as the
             # metadata contains a "SHANKS" attribute with the list of shanks.
             self.shanks = [int(re.match("shank([0-9]+)",
-                shank._v_name).group(1)[0])
+                shank._v_name).group(1))
                     for shank in self.kwik.listNodes('/shanks')]
-
+            print self.shanks
             # By default, read the first available shank.
             self.set_shank(self.shanks[0])
             self.read_shank()
