@@ -177,6 +177,7 @@ class HDF5Loader(Loader):
     def read_nchannels(self):
         """Read the number of alive channels from the probe file."""
         channels = self.probe[self.shank]['channels']
+        channels.remove(-1)
         channels_ignored = self.params['ignored_channels']
         channels_alive = sorted(set(channels) - set(channels_ignored))
         self.nchannels = len(channels_alive)

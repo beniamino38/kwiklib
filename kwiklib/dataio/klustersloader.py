@@ -342,7 +342,10 @@ def read_features(filename_fet, nchannels, fetdim, freq, do_process=True):
     
 # Clusters.
 def process_clusters(clusters):
-    return clusters[1:]
+    if clusters.size==1:
+        return []
+    else:
+        return clusters[1:]
 
 def read_clusters(filename_clu):
     clusters = load_text(filename_clu, np.int32)
